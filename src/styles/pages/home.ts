@@ -6,6 +6,41 @@ export const HomeContainer = styled('main', {
   marginLeft: 'auto',
   maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
   minHeight: 550,
+  position: 'relative',
+
+  '.left': {
+    backgroundColor: 'transparent',
+    opacity: 0.8,
+    border: 'none',
+    width: '48px',
+    height: '48px',
+    color: '$gray300',
+    fontSize: '48px',
+    cursor: 'pointer',
+
+    position: 'absolute',
+    top: '50%',
+    transform: 'translatey(-50%)',
+    left: 0,
+    zIndex: 2,
+  },
+
+  '.right': {
+    backgroundColor: 'transparent',
+    opacity: 0.8,
+    border: 'none',
+    width: '48px',
+    height: '48px',
+    color: '$gray300',
+    fontSize: '48px',
+    cursor: 'pointer',
+
+    position: 'absolute',
+    top: '50%',
+    transform: 'translatey(-50%)',
+    right: 0,
+    zIndex: 2,
+  },
 })
 
 export const Product = styled('a', {
@@ -40,14 +75,15 @@ export const Product = styled('a', {
 
     transform: 'translateY(110%)',
     opacity: 0,
-    transition: 'all 0.3s ease-in-out',
+    transition: 'all 0.2s ease-in-out',
 
     strong: {
-      fontSize: '$lg',
+      fontSize: '$md',
+      color: '$gray100',
     },
 
     span: {
-      fontSize: '$xl',
+      fontSize: '$lg',
       fontWeight: 'bold',
       color: '$green300',
     },
@@ -55,7 +91,7 @@ export const Product = styled('a', {
 
   '&:hover': {
     footer: {
-      transform: 'translateY(0)',
+      transform: 'translateY(0%)',
       opacity: 1,
     },
   },

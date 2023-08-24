@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -19,7 +19,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
@@ -28,6 +28,9 @@ export default function Home({ products }: HomeProps) {
 
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
+      <button onClick={() => instanceRef.current?.prev()} className="left">
+        {'<'}
+      </button>
       {products.map((product) => {
         return (
           <Product key={product.id} className="keen-slider__slide">
@@ -40,11 +43,14 @@ export default function Home({ products }: HomeProps) {
           </Product>
         )
       })}
+      <button onClick={() => instanceRef.current?.next()} className="right">
+        {'>'}
+      </button>
     </HomeContainer>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   })
@@ -56,7 +62,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount / 100,
+      price: new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(price.unit_amount / 100),
     }
   })
 
@@ -64,5 +73,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       products,
     },
+    revalidate: 60 * 60 * 2, // 2 Horas
   }
 }
