@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -24,6 +25,7 @@ export default function Home({ products }: HomeProps) {
       perView: 3,
       spacing: 48,
     },
+    loop: true,
   })
 
   return (
@@ -33,14 +35,16 @@ export default function Home({ products }: HomeProps) {
       </button>
       {products.map((product) => {
         return (
-          <Product key={product.id} className="keen-slider__slide">
-            <Image src={product.imageUrl} width={520} height={480} alt="" />
+          <Link legacyBehavior key={product.id} href={`/product/${product.id}`}>
+            <Product className="keen-slider__slide">
+              <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-            <footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </footer>
-          </Product>
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          </Link>
         )
       })}
       <button onClick={() => instanceRef.current?.next()} className="right">
