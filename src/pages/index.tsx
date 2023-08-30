@@ -15,7 +15,7 @@ interface HomeProps {
     id: string
     name: string
     imageUrl: string
-    price: number
+    price: string
   }[]
 }
 
@@ -35,9 +35,20 @@ export default function Home({ products }: HomeProps) {
       </button>
       {products.map((product) => {
         return (
-          <Link legacyBehavior key={product.id} href={`/product/${product.id}`}>
+          <Link
+            legacyBehavior
+            key={product.id}
+            href={`/product/${product.id}`}
+            prefetch={false}
+          >
             <Product className="keen-slider__slide">
-              <Image src={product.imageUrl} width={520} height={480} alt="" />
+              <Image
+                src={product.imageUrl}
+                width={400}
+                height={400}
+                alt=""
+                priority
+              />
 
               <footer>
                 <strong>{product.name}</strong>
