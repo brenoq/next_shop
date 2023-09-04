@@ -9,6 +9,7 @@ import { HomeContainer, Product } from '../styles/pages/home'
 
 import 'keen-slider/keen-slider.min.css'
 import Stripe from 'stripe'
+import Head from 'next/head'
 
 interface HomeProps {
   products: {
@@ -29,39 +30,45 @@ export default function Home({ products }: HomeProps) {
   })
 
   return (
-    <HomeContainer ref={sliderRef} className="keen-slider">
-      <button onClick={() => instanceRef.current?.prev()} className="left">
-        {'<'}
-      </button>
-      {products.map((product) => {
-        return (
-          <Link
-            legacyBehavior
-            key={product.id}
-            href={`/product/${product.id}`}
-            prefetch={false}
-          >
-            <Product className="keen-slider__slide">
-              <Image
-                src={product.imageUrl}
-                width={400}
-                height={400}
-                alt=""
-                priority
-              />
+    <>
+      <Head>
+        <title>Home | Ignite Shop</title>
+      </Head>
 
-              <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
-              </footer>
-            </Product>
-          </Link>
-        )
-      })}
-      <button onClick={() => instanceRef.current?.next()} className="right">
-        {'>'}
-      </button>
-    </HomeContainer>
+      <HomeContainer ref={sliderRef} className="keen-slider">
+        <button onClick={() => instanceRef.current?.prev()} className="left">
+          {'<'}
+        </button>
+        {products.map((product) => {
+          return (
+            <Link
+              legacyBehavior
+              key={product.id}
+              href={`/product/${product.id}`}
+              prefetch={false}
+            >
+              <Product className="keen-slider__slide">
+                <Image
+                  src={product.imageUrl}
+                  width={400}
+                  height={400}
+                  alt=""
+                  priority
+                />
+
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>
+            </Link>
+          )
+        })}
+        <button onClick={() => instanceRef.current?.next()} className="right">
+          {'>'}
+        </button>
+      </HomeContainer>
+    </>
   )
 }
 
